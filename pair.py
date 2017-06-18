@@ -49,29 +49,36 @@ def talkPlan(a):
             resultingPlan.append(tempPlan)
     return resultingPlan
 
+def matrixPrint(plan, num):
+    a = [[0 for i in range(num)] for i in range(num)]
+    for i in range(len(plan)):
+        for j in plan[i]:
+            a[j[0] - 1][j[1] - 1], a[j[1] - 1][j[0] - 1] = i + 1, i + 1
+    for i in a:
+        print(' '.join([str(f) for f in i]))
 
-_elementsNum = int(input('Input elements num: ')) 
+_elementsNum = int(input('Введите количество человек: ')) 
 _defaultElements = tuple(int(i) for i in range(1, _elementsNum + 1))
 
 if (_elementsNum == 2 ** (int(log(_elementsNum, 2)))):
-    print(talkPlan([i + 1 for i in range(_elementsNum)]))
-    input()
-
-pairs = list(combinations(_defaultElements, 2))
-groups = list(combinations(pairs, _elementsNum // 2))
-checkedGroups = []
-for group in groups: 
-	b = []
-	for i in group:
-		b += list(i)
-	if len(b) == len(set(b)):
-		checkedGroups.append(group)
-result = []
-for plan in combinations(checkedGroups, _elementsNum - 1):
-	b = []
-	for i in plan:
-		b += list(i)
-	if len(b) == len(set(b)):
-		result.append(plan)
-		break
-print(plan)
+    plan = talkPlan([i + 1 for i in range(_elementsNum)])
+else:
+    pairs = list(combinations(_defaultElements, 2))
+    groups = list(combinations(pairs, _elementsNum // 2))
+    checkedGroups = []
+    for group in groups: 
+        b = []
+        for i in group:
+            b += list(i)
+        if len(b) == len(set(b)):
+            checkedGroups.append(group)
+    result = []
+    for plan in combinations(checkedGroups, _elementsNum - 1):
+        b = []
+        for i in plan:
+            b += list(i)
+        if len(b) == len(set(b)):
+            result.append(plan)
+            break
+print("План бесед:")
+matrixPrint(plan, _elementsNum)
